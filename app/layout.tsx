@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import Navbar from "@/components/navbar/Navbar";
+import Container from "@/components/globals/Container";
 
 const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
@@ -30,11 +32,14 @@ export default function RootLayout({
       lang="en"
       className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable)}
     >
-      <body className="min-h-full flex flex-col"
+      <body 
         data-new-gr-c-s-check-loaded="14.1282.0"
         data-gr-ext-installed=""
       >
-        {children}
+        <Navbar />
+        <Container className='py-10'>
+          {children}
+        </Container>
       </body>
     </html>
   );
