@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import Navbar from "@/components/navbar/Navbar";
 import Container from "@/components/globals/Container";
+import Providers from "./providers";
 
 
 const inter = Inter({subsets:['latin'],variable:'--font-sans'});
@@ -34,12 +35,12 @@ export default function RootLayout({
       className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable)}
     >
       <body>
-        
-        <Navbar />
-        <Container className='py-10'>
-          {children}
-        </Container>
-      
+        <Providers>
+          <Navbar />
+          <Container className='py-10'>
+            {children}
+          </Container>
+        </Providers>
       </body>
     </html>
   );
