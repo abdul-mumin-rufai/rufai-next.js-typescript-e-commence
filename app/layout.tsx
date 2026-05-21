@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import Navbar from "@/components/navbar/Navbar";
 import Container from "@/components/globals/Container";
 
+
 const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
 const geistSans = Geist({
@@ -29,17 +30,16 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="en" suppressHydrationWarning
       className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable)}
     >
-      <body 
-        data-new-gr-c-s-check-loaded="14.1282.0"
-        data-gr-ext-installed=""
-      >
+      <body>
+        
         <Navbar />
         <Container className='py-10'>
           {children}
         </Container>
+      
       </body>
     </html>
   );

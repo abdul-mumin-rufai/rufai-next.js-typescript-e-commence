@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 function Logo() {
   return (
-    <Button variant='destructive' size='lg'>
+    <Button asChild variant='destructive' size='lg'>
       <Link href='/'>
         <p className='text-3xl font-bold'>Rufai</p>
         {/* <MdAutoAwesome className='w-10 h-10'/> */}
