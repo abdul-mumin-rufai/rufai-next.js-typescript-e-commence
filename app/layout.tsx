@@ -34,7 +34,10 @@ export default function RootLayout({
       lang="en" suppressHydrationWarning={true}
       className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable)}
     >
-      <body>
+      <body
+        data-new-gr-c-s-check-loaded="14.1282.0"
+        data-gr-ext-installed=""
+      >
         <Providers>
           <Navbar />
           <Container className='py-10'>
