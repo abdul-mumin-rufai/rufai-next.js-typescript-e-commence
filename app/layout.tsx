@@ -35,7 +35,7 @@ export default function RootLayout({
       className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable)}
     >
       <body
-        data-new-gr-c-s-check-loaded="14.1282.0"
+        data-new-gr-c-s-check-loaded="14.1295.0"
         data-gr-ext-installed=""
       >
         <Providers>
