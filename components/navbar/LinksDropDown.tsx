@@ -17,11 +17,11 @@ function LinksDropDown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant='outline' className='flex gap-4 max-w-25'>
+        <Button variant='destructive' className='flex gap-4 max-w-25'>
           <FaAlignJustify className='h-6 w-6' />
         </Button>
       </DropdownMenuTrigger>
-        <DropdownMenuContent className='w-40' align='center' sideOffset={10}>
+        <DropdownMenuContent className='w-40' align='end' sideOffset={10}>
           {links.map((link) => {
             return (
               <DropdownMenuItem key={link.href}>

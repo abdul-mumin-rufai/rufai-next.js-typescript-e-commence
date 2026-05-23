@@ -9,7 +9,7 @@ async function CartButton() {
 
   return (
     <Button
-      variant='outline'
+      variant='destructive'
       size='icon'
       className='flex items-center justify-center relative'
     >
