@@ -9,14 +9,14 @@ datasource db {
 }
 
 model Product {
-  id           String     @id @default(uuid())
+  id          String   @id @default(uuid())
   name        String
   company     String
   description String
-  featured   Boolean
+  featured    Boolean  @default(false)
   image       String
-  price       Int
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  clerkId  String
+  price       Int      
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  clerkId     String? 
 }
