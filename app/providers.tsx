@@ -3,6 +3,9 @@
 import React from 'react'
 import { ThemeProvider } from './theme-provider';
 
+// called the ThemeProvider  in the providers and pass the props and children prop
+// after that call the providers in the root layout and pass the children prop.
+// after that copy the theme code from shancn ui and paste it in the globals.css file
 function Providers({children}:{children:React.ReactNode}) {
   return (
         <ThemeProvider
@@ -16,4 +19,4 @@ function Providers({children}:{children:React.ReactNode}) {
   )
 };
 
-export default Providers;
+export default Providers; 
