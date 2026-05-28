@@ -16,13 +16,13 @@ const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
-  console.log('⏳ Parsing products.json records...');
+  console.log('Parsing products.json records...');
 
   const filePath = path.resolve(process.cwd(), 'prisma/products.json');
   const rawData = fs.readFileSync(filePath, 'utf-8');
   const products = JSON.parse(rawData);
 
-  console.log(`🚀 Seeding ${products.length} products into Supabase...`);
+  console.log(`Seeding ${products.length} products into Supabase...`);
 
   await prisma.product.deleteMany();
 
@@ -34,7 +34,7 @@ async function main() {
     });
   }
 
-  console.log('🫱🏾‍🫲🏿 Seeding successfully completed!');
+  console.log('Seeding successfully completed!');
 }
 
 main()
@@ -43,7 +43,7 @@ main()
     await pool.end();
   })
   .catch(async (e) => {
-    console.error('❌ Seeding failed with error:', e);
+    console.error('Seeding failed with error:', e);
     await prisma.$disconnect();
     await pool.end();
     process.exit(1);
