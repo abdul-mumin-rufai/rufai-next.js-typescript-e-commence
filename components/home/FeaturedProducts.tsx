@@ -6,9 +6,9 @@ import ProductsGrid from '@/components/products/ProductsGrid';
 
 const FeaturedProducts = async () => {
     const featuredProduct = await fetchFeaturedProductFn();
-    if (featuredProduct.length) return <EmptyList/>
+    if (featuredProduct.length==0) return <EmptyList/>
     return (
-        <section>
+        <section className='pt-24'>
             <SectionTitle title='Featured Products!!! 20% discount price' />
             <ProductsGrid featuredProducts={featuredProduct}/>
         </section>
