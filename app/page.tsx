@@ -1,13 +1,20 @@
+import React, { Suspense } from 'react'
 import FeaturedProducts from '@/components/home/FeaturedProducts';
 import Hero from '@/components/home/Hero';
-import { Button } from '@/components/ui/button';
-import React from 'react'
+import LoadingContainer from '@/components/globals/LoadingContainer';
+
+
 
 function Homepage() {
   return (
     <div>
       <Hero />
-      <FeaturedProducts/>
+      
+      {/* the suspense component must called in the component that is 
+      actually fetching the data ie featuredProducts */}
+      <Suspense fallback={<LoadingContainer/>}>
+        <FeaturedProducts/>
+      </Suspense>
     </div>
   )
 };
