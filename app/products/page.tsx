@@ -1,8 +1,18 @@
+import ProductsContainer from '@/components/products/ProductsContainer';
 import React from 'react'
 
-function ProductsPage() {
+
+interface SearchParams{
+  layout?: string;
+  search?: string;
+}
+async function ProductsPage(searchParams :SearchParams) {
+  console.log(searchParams);
+  const layout = searchParams.layout || 'grid';
+  const search = searchParams.search || '';
+  
   return (
-    <div>ProductsPage</div>
+    <ProductsContainer />
   )
 };
 
