@@ -6,13 +6,13 @@ interface SearchParams{
   layout?: string;
   search?: string;
 }
-async function ProductsPage(searchParams :SearchParams) {
-  console.log(searchParams);
+async function ProductsPage(searchParams: SearchParams) {
+  //getting the query strings ie layout and search
   const layout = searchParams.layout || 'grid';
   const search = searchParams.search || '';
   
   return (
-    <ProductsContainer />
+    <ProductsContainer layout={layout} search={search} />
   )
 };
 
