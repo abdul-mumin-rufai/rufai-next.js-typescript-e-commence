@@ -8,9 +8,9 @@ const Hero = () => {
         <section className='grid grid-cols-1 lg:grid-cols-2 gap-24 items-center'>
             <div>
                 <h1 className='max-w-2xl font-bold text-green-700 text-4xl tracking-tight sm:text-6xl'>
-                    Rufai's Watch - Where Time Meets Style
+                    Rufai's Watches, Where Time Meets Style
                 </h1>
-                <p className='mt-8 max-w-xl text-lg leading-8 text-muted-foreground'>
+                <p className='mt-8 max-w-xl text-lg text-justify leading-8 text-muted-foreground'>
                     Discover the perfect blend of timeless elegance and modern sophistication
                     with Rufai's Watch. Our curated collection of exquisite timepieces is designed to
                     elevate your style and keep you punctual. Explore our range of watches

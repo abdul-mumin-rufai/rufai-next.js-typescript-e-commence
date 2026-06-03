@@ -7,6 +7,8 @@ interface SearchParams{
   search?: string;
 }
 async function ProductsPage(searchParams: SearchParams) {
+  console.log(searchParams);
+  
   //getting the query strings ie layout and search
   const layout = searchParams.layout || 'grid';
   const search = searchParams.search || '';
