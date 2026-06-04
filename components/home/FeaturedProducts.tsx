@@ -5,12 +5,12 @@ import SectionTitle from '@/components/globals/SectionTitle';
 import ProductsGrid from '@/components/products/ProductsGrid';
 
 const FeaturedProducts = async () => {
-    const featuredProduct = await fetchFeaturedProductFn();
-    if (featuredProduct.length==0) return <EmptyList/>
+    const products = await fetchFeaturedProductFn();
+    if (products.length==0) return <EmptyList/>
     return (
         <section className='pt-24'>
             <SectionTitle title='Featured Products!!! 20% discount price' />
-            <ProductsGrid products={featuredProduct}/>
+            <ProductsGrid products={products}/>
         </section>
     )
 };

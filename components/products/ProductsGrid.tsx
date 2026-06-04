@@ -8,10 +8,9 @@ import FavoriteToggleButton from './FavoriteToggleButton';
 
 
 const ProductsGrid = ({ products }: { products: Product[] }) => {
-    const featuredProduct = products
     return (
         <div className='pt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3'>
-            {featuredProduct.map((product) => {
+            {products.map((product) => {
                 const { name, image, price } = product;
                 const productId = product.id;
                 const cedisAmount = currencyOfGhana(price);

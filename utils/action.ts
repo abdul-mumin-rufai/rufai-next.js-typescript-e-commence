@@ -6,7 +6,7 @@ export const fetchFeaturedProductFn = async () => {
             featured: true,
         },
     });
-    return featuredProducts
+    return featuredProducts;
 };
 
 export const fetchAllProducts = async () => { 

@@ -14,24 +14,48 @@ interface SearchParams {
     search: string;
 };
 
-const ProductsContainer = async ({layout, search}: SearchParams) => {
+const ProductsContainer = async ({ layout, search }: SearchParams) => {
+    
     const products = await fetchAllProducts();
     const totalProducts = products.length;
-    const searchItem = search ? `&search=${search}`: ''
+    const searchItem = search ? `&search=${search}` : ''
+    
     return (
         <>
-            {/*  HEADER */}
+            {/* DISPLAY HEADER */}
             <section>
-
+                <div className='flex justify-between items-center'>
+                    <h4 className='font-medium text-lg'>
+                        {totalProducts} product{totalProducts > 1 && 's'}
+                    </h4>
+                    <div className='flex gap-x-4'>
+                        <Button
+                        variant={layout === 'grid' ? 'destructive' : 'ghost'}
+                        size='icon'
+                        asChild
+                        >
+                        <Link href={`/products?layout=grid${searchItem}`}>
+                            <BsUiRadiosGrid/>
+                        </Link>
+                        </Button>
+                        <Button
+                        variant={layout === 'list' ? 'destructive' : 'ghost'}
+                        size='icon'
+                        asChild
+                        >
+                        <Link href={`/products?layout=list${searchItem}`}>
+                            <RiListRadio/>
+                        </Link>
+                        </Button>
+                    </div>
+                </div>
+                <Separator className='mt-4'/>
             </section>
-            {/* DISPLAY PRODUCTS */}
+           {/*  DISPLAY PRODUCTS */}
             <div>
-                {totalProducts === 0 ? (<h5 className='text-2xl mt-16'>please your search does not match any product...</h5>) : layout === 'grid' ? (<ProductsGrid products={products} />) : <ProductsList products={products} />}
+                {totalProducts === 0 ? (<h5 className='text-2xl mt-16'>please your search doesn't match any product...</h5>):layout==='grid'?(<ProductsGrid products={products}/>):(<ProductsList products={products}/>)}
             </div>
         </>
-
-
-    
     )
 };
 

@@ -1,18 +1,19 @@
-import ProductsContainer from '@/components/products/ProductsContainer';
 import React from 'react'
-
+import ProductsContainer from '@/components/products/ProductsContainer';
 
 interface SearchParams{
-  layout?: string;
-  search?: string;
+  searchParams?: Promise<{
+    layout?: string;
+    search?: string;
+  }>
 }
-async function ProductsPage(searchParams: SearchParams) {
-  console.log(searchParams);
-  
-  //getting the query strings ie layout and search
-  const layout = searchParams.layout || 'grid';
-  const search = searchParams.search || '';
-  
+async function ProductsPage({ searchParams }: SearchParams) {
+  // await for the actual searchParams values. searchParams return a Promise
+  const params = await searchParams || {};
+
+  const layout = params.layout || 'grid';
+  const search = params.search || '';
+
   return (
     <ProductsContainer layout={layout} search={search} />
   )
