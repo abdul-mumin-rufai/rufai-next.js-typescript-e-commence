@@ -8,7 +8,7 @@ import { fetchAllProducts } from '@/utils/action';
 import { BsUiRadiosGrid } from "react-icons/bs";
 import { RiListRadio } from "react-icons/ri";
 
-
+// getting the query string
 interface SearchParams { 
     layout: string;
     search: string;
@@ -16,7 +16,7 @@ interface SearchParams {
 
 const ProductsContainer = async ({ layout, search }: SearchParams) => {
     
-    const products = await fetchAllProducts();
+    const products = await fetchAllProducts({search});
     const totalProducts = products.length;
     const searchItem = search ? `&search=${search}` : ''
     
