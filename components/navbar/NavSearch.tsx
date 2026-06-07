@@ -19,8 +19,9 @@ const NavSearch = () => {
         } else {
             params.delete('search')
         }
+        // wheather there is a search value or not we navigate to th products page with the search query string
         replace(`/products?${params.toString()}`);
-    }, 500);
+    }, 300);
 
     // clearing the search field if search is empty
     useEffect(() => {
@@ -33,10 +34,10 @@ const NavSearch = () => {
         <div>
             <Input
                 type='search'
-                placeholder='search product...'
+                placeholder='search product name...'
                 className='max-w-sm dark:bg-muted'
                 onChange={(e) => {
-                    setSearch(e.target.value);
+                    setSearch(e.target.value); // update the search state immediately for better.
                     handleSearch(e.target.value);
                 }}
                 value={search}
