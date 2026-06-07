@@ -1,4 +1,6 @@
 import db from '@/utils/db';
+import { redirect } from 'next/navigation';
+
 
 export const fetchFeaturedProductFn = async () => { 
     const featuredProducts = await db.prisma.product.findMany({
@@ -22,4 +24,16 @@ export const fetchAllProducts = async ({search=''}:{search:string}) => {
         },
     });
     return allProducts;
+};
+
+export const fetchSingleProduct = async ({ productId }: { productId: string }) => { 
+    const singleProduct = await db.prisma.product.findUnique({
+        where: {
+            id: productId
+        }
+    })
+    if (!singleProduct) {
+        redirect('/products')
+    };
+    return singleProduct;
 };
