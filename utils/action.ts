@@ -26,7 +26,7 @@ export const fetchAllProducts = async ({search=''}:{search:string}) => {
     return allProducts;
 };
 
-export const fetchSingleProduct = async ({ productId }: { productId: string }) => { 
+export const fetchSingleProduct = async (productId :string) => { 
     const singleProduct = await db.prisma.product.findUnique({
         where: {
             id: productId
