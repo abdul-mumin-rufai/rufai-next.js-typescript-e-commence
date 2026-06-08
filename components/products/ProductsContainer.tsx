@@ -53,6 +53,7 @@ const ProductsContainer = async ({ layout, search }: SearchParams) => {
             </section>
            {/*  DISPLAY PRODUCTS */}
             <div>
+               {/*  IF IT IS GRID OR LIST IT DISPLAYS NO PRODUCT */}
                 {totalProducts === 0 ? (<h5 className='text-2xl mt-16'>please your search doesn't match any product...</h5>):layout==='grid'?(<ProductsGrid products={products}/>):(<ProductsList products={products}/>)}
             </div>
         </>
