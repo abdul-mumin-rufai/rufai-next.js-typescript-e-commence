@@ -23,6 +23,7 @@ const page = async ({ params }: IdProps) => {
     return (
         <section>
             <BreadCrums name={singleProduct.name} />
+            {/* TWO GRID LAYOUT ONE FOR IMAGE AND THE OTHER FOR PRODUCT DETAILS */}
             <div className='mt-6 grid gap-y-8 lg:grid-cols-2 lg:gap-x-16'>
                 {/* GRID1 IMAGE */}
                 <div className='relative h-full'>
