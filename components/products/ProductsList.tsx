@@ -1,5 +1,5 @@
 import React from 'react'
-import { Product } from '@/lib/generated/prisma/client';
+import { Product } from '@/myPrisma/generated/prisma/client';
 import { currencyOfGhana } from '@/utils/formats';
 import { Card, CardContent } from '../ui/card';
 import Link from 'next/link';
