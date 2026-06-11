@@ -12,6 +12,7 @@ function Homepage() {
       
       {/* the suspense component must called in the component that is 
       actually fetching the data ie featuredProducts */}
+      {/* DEPLOYMENT WAS SUCCESSFUL! */}
       <Suspense fallback={<LoadingContainer/>}>
         <FeaturedProducts/>
       </Suspense>
