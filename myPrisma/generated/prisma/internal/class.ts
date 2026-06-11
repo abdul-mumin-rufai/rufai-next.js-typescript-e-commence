@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.8.0",
   "engineVersion": "3c6e192761c0362d496ed980de936e2f3cebcd3a",
   "activeProvider": "postgresql",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"./lib/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Product {\n  id          String   @id @default(uuid())\n  name        String\n  company     String\n  description String\n  featured    Boolean  @default(false)\n  image       String\n  price       Int\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n  clerkId     String?\n}\n",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Get a free hosted Postgres database in seconds: `npx create-db`\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"../myPrisma/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Product {\n  id          String   @id @default(uuid())\n  name        String\n  company     String\n  description String\n  featured    Boolean  @default(false)\n  image       String\n  price       Int\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n  clerkId     String?\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
