@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import Navbar from "@/components/navbar/Navbar";
 import Container from "@/components/globals/Container";
 import Providers from "./providers";
+import {ClerkProvider} from '@clerk/nextjs'
 
 
 const inter = Inter({subsets:['latin'],variable:'--font-sans'});
@@ -30,21 +31,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en" suppressHydrationWarning={true}
-      className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable)}
-    >
-      <body
-        data-new-gr-c-s-check-loaded="14.1295.0"
-        data-gr-ext-installed=""
+    <ClerkProvider>
+      <html
+        lang="en" suppressHydrationWarning={true}
+        className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable)}
       >
-        <Providers>
-          <Navbar />
-          <Container className='py-10'>
-            {children}
-          </Container>
-        </Providers>
-      </body>
-    </html>
+        <body
+          data-new-gr-c-s-check-loaded="14.1295.0"
+          data-gr-ext-installed=""
+        >
+          <Providers>
+            <Navbar />
+            <Container className='py-10'>
+              {children}
+            </Container>
+          </Providers>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
