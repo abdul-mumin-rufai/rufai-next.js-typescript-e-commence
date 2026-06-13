@@ -6,8 +6,11 @@ import CartButton from './CartButton';
 import DarkMode from './DarkMode';
 import LinksDropDown from './LinksDropDown';
 import { Suspense } from 'react';
+import { currentUser } from '@clerk/nextjs/server';
 
-function Navbar() {
+async function Navbar() {
+    const user = await currentUser();
+    const userName = user?.firstName
     return (
         <nav className='border-b '>
             <Container className='flex flex-col sm:flex-row sm:justify-between sm:items-center flex-wrap
@@ -17,6 +20,9 @@ function Navbar() {
                     <NavSearch />
                 </Suspense>
                 <div className='flex gap-4 items-center'>
+                    <div className='text-green-800'>
+                        Welcome, {userName}
+                    </div>
                     <CartButton />
                     <DarkMode />
                     <LinksDropDown/>
