@@ -1,17 +1,24 @@
+'use client'
 import React from 'react'
 import { FaUserCircle } from "react-icons/fa";
-import { currentUser } from '@clerk/nextjs/server';
+import { useUser } from '@clerk/nextjs';
 
-async function UserIcon() {
+function UserIcon() {
   // grab user from clerk
-  const user = await currentUser();
+const  {user} = useUser();
   // grab profileImage form the user
   const profileImage = user?.imageUrl;
 
   if (profileImage) {
-    <img src={profileImage} className='w-6 h-6 rounded-full object-cover'/>
+    return (
+      <img
+        src={profileImage}
+        alt='profile image'
+        className='w-6 h-6 bg-primary rounded-full text-white object-cover'
+      />
+    );
   }
-  
+
   return (
     <FaUserCircle className='w-6 h-6 bg-primary rounded-full text-white'/>
   )
