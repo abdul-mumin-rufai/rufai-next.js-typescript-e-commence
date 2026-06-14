@@ -21,7 +21,7 @@ async function Navbar() {
                 </Suspense>
                 <div className='flex gap-4 items-center'>
                     <div className='text-green-800'>
-                        Welcome, {userName}
+                        {userName}
                     </div>
                     <CartButton />
                     <DarkMode />
