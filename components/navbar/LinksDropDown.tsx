@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { links } from '@/utils/links';
 import { FaAlignJustify } from "react-icons/fa";
 import { Button } from '../ui/button';
-import { Show, SignInButton, SignUpButton } from '@clerk/nextjs';
+import { Show, SignInButton, SignUpButton, useAuth } from '@clerk/nextjs';
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -17,6 +17,8 @@ import UserIcon from './UserIcon';
 
 
 function LinksDropDown() {
+  const { userId } = useAuth();
+  const isAdmin = userId === process.env.ADMIN_USER_ID;
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -41,6 +43,7 @@ function LinksDropDown() {
         </Show>
         <Show when='signed-in'>
           {links.map((link) => {
+            if(link.label ==='dashboard' && !isAdmin) return null
             return (
               <DropdownMenuItem key={link.href}>
                 <Link href={link.href} className='capitalize w-full'>
