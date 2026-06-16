@@ -1,9 +1,16 @@
+import { auth } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
 import { Separator } from '@/components/ui/separator';
 import React, { ReactNode } from 'react'
 import Sidebar from './sidebar';
 
-const AdminPageLayout = ({ children }: { children: ReactNode }) => {
-    
+const AdminPageLayout = async ({ children }: { children: ReactNode }) => {
+    const { userId } = await auth();
+
+    if (userId !== process.env.ADMIN_USER_ID) {
+        redirect('/');
+    }
+
     return (
         <>
             <h2 className='text-2xl pl-4'>DashBoard</h2>

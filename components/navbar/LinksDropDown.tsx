@@ -15,10 +15,13 @@ import {
 import SignOutLink from './SignOutLink';
 import UserIcon from './UserIcon';
 
-
 function LinksDropDown() {
   const { userId } = useAuth();
-  const isAdmin = userId === process.env.ADMIN_USER_ID;
+  const isAdminUser =
+    Boolean(userId) &&
+    Boolean(process.env.NEXT_PUBLIC_ADMIN_USER_ID) &&
+    userId === process.env.NEXT_PUBLIC_ADMIN_USER_ID;
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -43,7 +46,9 @@ function LinksDropDown() {
         </Show>
         <Show when='signed-in'>
           {links.map((link) => {
-            if(link.label ==='dashboard' && !isAdmin) return null
+            if(link.label === 'dashboard' && !isAdminUser) {
+              return null;
+            }
             return (
               <DropdownMenuItem key={link.href}>
                 <Link href={link.href} className='capitalize w-full'>
