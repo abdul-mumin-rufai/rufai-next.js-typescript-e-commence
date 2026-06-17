@@ -5,7 +5,7 @@ import { LuShoppingBasket } from 'react-icons/lu';
 
 async function CartButton() {
   // this temporary
-  const numberOfItemsInCart = 15;
+  const numberOfItemsInCart = 19;
 
   return (
     <Button
