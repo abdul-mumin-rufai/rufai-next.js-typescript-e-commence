@@ -17,10 +17,9 @@ import UserIcon from './UserIcon';
 
 function LinksDropDown() {
   const { userId } = useAuth();
-  const isAdminUser =
-    Boolean(userId) &&
-    Boolean(process.env.NEXT_PUBLIC_ADMIN_USER_ID) &&
-    userId === process.env.NEXT_PUBLIC_ADMIN_USER_ID;
+  const currentUserId = String(userId).trim();
+  const targetAdmin = String(process.env.NEXT_PUBLIC_ADMIN_USER_ID).trim();
+  const isAdmin = userId && currentUserId === targetAdmin;
 
   return (
     <DropdownMenu>
@@ -46,7 +45,7 @@ function LinksDropDown() {
         </Show>
         <Show when='signed-in'>
           {links.map((link) => {
-            if(link.label === 'dashboard' && !isAdminUser) {
+            if(link.label === 'dashboard' && !isAdmin) {
               return null;
             }
             return (

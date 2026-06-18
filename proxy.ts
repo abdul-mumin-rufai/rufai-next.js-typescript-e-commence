@@ -10,7 +10,7 @@ const isAdminRoute = createRouteMatcher(['/admin(.*)']);
 // restrict access to all other routes and protect them with clerk authentication
 export default clerkMiddleware(async (auth, request) => {
   // checking if the user is the admin
-  const isAdminUser = (await auth()).userId === process.env.ADMIN_USER_ID;
+  const isAdminUser = (await auth()).userId === process.env.ADMIN_USER_ID?.trim();
   if (isAdminRoute(request) && !isAdminUser) { 
     return NextResponse.redirect(new URL('/', request.url));
   };
