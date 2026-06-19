@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import {faker} from '@faker-js/faker'
 import React from 'react'
 
 const createProductAction = async (formData: FormData) => { 
@@ -10,6 +11,9 @@ const createProductAction = async (formData: FormData) => {
     
 };
 const CreateProductPage = () => {
+    const name = faker.commerce.productName();
+    const company = faker.company.name();
+    const description = faker.lorem.paragraph({ min: 12, max: 14 });
     return (
         <section>
             <h1 className='text-2xl font-semibold mb-8 capitalize'>create product</h1>
@@ -17,7 +21,7 @@ const CreateProductPage = () => {
                 <form action={createProductAction}>
                     <div className='mb-2'>
                         <Label htmlFor='name' className='mb-2'>Product Name</Label>
-                        <Input id='name' name='name' type='text'/>
+                        <Input id='name' name='name' type='text' defaultValue={name}/>
                     </div>
                     <Button type='submit' size='lg'>
                         Submit
