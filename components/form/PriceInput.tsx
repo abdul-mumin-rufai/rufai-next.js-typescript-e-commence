@@ -10,7 +10,7 @@ interface PriceInputProps {
 const PriceInput = ({price}:PriceInputProps) => {
     return (
         <div className='mb-2'>
-            <Label htmlFor='price' className='capitalize'>price</Label>
+            <Label htmlFor={name} className='capitalize'>price (GHS)</Label>
             <Input id={name} type='number' name={name} defaultValue={price || 500} min={0} required/>
         </div>
     )
