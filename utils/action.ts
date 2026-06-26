@@ -3,6 +3,7 @@
 import db from '@/utils/db';
 import { currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
+import { productSchema } from './schemas';
 
 // helper function to get userId
 const getAdminUser = async () => { 
@@ -57,25 +58,9 @@ export const fetchSingleProduct = async (productId :string) => {
 export const createProductAction = async (prev: any, formaData: FormData): Promise<{ message: string }> => { 
     const user = await getAdminUser();
     try {
-        const name = formaData.get('name') as string;
-        const company = formaData.get('company') as string;
-        // temporary
-        const price = Number(formaData.get('price') as string);
-        const image = formaData.get('image') as File;
-        const description = formaData.get('description') as string;
-        const featured = Boolean(formaData.get('featured') as string);
-
-        await db.prisma.product.create({
-            data: {
-                name,
-                company,
-                price,
-                image: '/images/product_1.jpg',
-                description,
-                featured,
-                clerkId: user.id,
-            }
-        })
+        const rawData = Object.fromEntries(formaData);
+        const validatedData = productSchema.parse(rawData);
+        
         return {message:'product created successfully'}
     } catch (error) {
         return renderError(error);
