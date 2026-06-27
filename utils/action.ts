@@ -57,12 +57,14 @@ export const fetchSingleProduct = async (productId :string) => {
 
 export const createProductAction = async (prev: any, formaData: FormData): Promise<{ message: string }> => { 
     const user = await getAdminUser();
-    try {
-        const rawData = Object.fromEntries(formaData);
-        const validatedData = productSchema.parse(rawData);
-        
-        return {message:'product created successfully'}
-    } catch (error) {
-        return renderError(error);
-    }
+
+    // getting the input values
+    const rawData = Object.fromEntries(formaData.entries());
+    const validatedData = productSchema.safeParse(rawData);
+    
+    if (!validatedData.success) { 
+        //const errors = validatedData.error.errors.map((error) => error.message);
+      //throw new Error(errors.join(','));
+    };
+    return {message:'product created'}
 };
