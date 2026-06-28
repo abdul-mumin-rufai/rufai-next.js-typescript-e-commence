@@ -1,5 +1,6 @@
 import { z } from 'zod'
 
+// validating the products input 
 export const productSchema= z.object({
     name: z.string()
         .min(2, { message: 'please name of product must be at latest 2 characters',})
