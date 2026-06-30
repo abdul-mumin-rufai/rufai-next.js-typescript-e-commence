@@ -64,11 +64,11 @@ export const createProductAction = async (prev: any, formaData: FormData): Promi
         const validatedData = productSchema.safeParse(rawData)
 
         if (!validatedData.success) {
-            const errors = validatedData.error.errors.map((err) => err.message).join(', ');
-            return { message: `Please fix the following errors: ${errors}` };
+            const errors = validatedData.error.issues.map((issue) => issue.message);
+            throw new Error(errors.join(','));
         }
         return { message: 'Product created successfully' };
     } catch (error) {
-        return { message: 'An error occurred while creating the product' };
+        return renderError(error)
     }
 };
