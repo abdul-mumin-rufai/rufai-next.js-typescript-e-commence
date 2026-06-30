@@ -63,6 +63,13 @@ export const createProductAction = async (prev: any, formaData: FormData): Promi
         const rawData = Object.fromEntries(formaData.entries());
         const validatedData = validateWithZodSchema(productSchema, rawData);
 
+        await db.prisma.product.create({
+            data: {
+                ...validatedData,
+                image: '/images/product_1.jpg',
+                clerkId:user.id,
+            }
+        })
         return { message: 'Product created successfully' };
     } catch (error) {
         return renderError(error)
