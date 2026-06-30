@@ -3,7 +3,7 @@
 import db from '@/utils/db';
 import { currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
-import { productSchema, validateWithZodSchema } from './schemas';
+import { imageSchema, productSchema, validateWithZodSchema } from './schemas';
 
 // helper function to get userId
 const getAdminUser = async () => { 
@@ -61,7 +61,12 @@ export const createProductAction = async (prev: any, formaData: FormData): Promi
     try {
         //getting the input data
         const rawData = Object.fromEntries(formaData.entries());
+        const imageFile = formaData.get('image') as File;
+        const validatedImage = validateWithZodSchema(imageSchema, { image: imageFile });
         const validatedData = validateWithZodSchema(productSchema, rawData);
+        console.log(validatedImage);
+        
+
 
         await db.prisma.product.create({
             data: {

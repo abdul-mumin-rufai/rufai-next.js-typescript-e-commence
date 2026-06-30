@@ -1,3 +1,4 @@
+import { fi } from '@faker-js/faker';
 import { z, } from 'zod'
 
 // validating the products input 
@@ -17,6 +18,22 @@ export const productSchema= z.object({
     },
         {message:'please description must be more than 9 word and less than 1001 words',}
     )
+});
+
+const validateImageFile = () => { 
+    const maxFileSize = 1024 * 1024;
+    const acceptedFileTypes = ['image/'];
+    return z.instanceof(File).refine((file) => {
+        return !file || file.size <= maxFileSize
+    }, 'Please file size must not exceed 1MB').refine((file) => {
+        return (
+            !file || acceptedFileTypes.some((type) => file.type.startsWith(type))
+        )
+    }, 'Please file must be image')
+};
+
+export const imageSchema = z.object({
+    image: validateImageFile(),
 });
 
 export const validateWithZodSchema = <T> (schema: z.ZodType<T>, data: unknown):T  => {
