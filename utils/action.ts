@@ -3,7 +3,7 @@
 import db from '@/utils/db';
 import { currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
-import { productSchema } from './schemas';
+import { productSchema, validateWithZodSchema } from './schemas';
 
 // helper function to get userId
 const getAdminUser = async () => { 
@@ -61,12 +61,8 @@ export const createProductAction = async (prev: any, formaData: FormData): Promi
     try {
         //getting the input data
         const rawData = Object.fromEntries(formaData.entries());
-        const validatedData = productSchema.safeParse(rawData)
+        const validatedData = validateWithZodSchema(productSchema, rawData);
 
-        if (!validatedData.success) {
-            const errors = validatedData.error.issues.map((issue) => issue.message);
-            throw new Error(errors.join(','));
-        }
         return { message: 'Product created successfully' };
     } catch (error) {
         return renderError(error)

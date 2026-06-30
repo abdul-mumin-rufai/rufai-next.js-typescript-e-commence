@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { z, } from 'zod'
 
 // validating the products input 
 export const productSchema= z.object({
@@ -18,3 +18,12 @@ export const productSchema= z.object({
         {message:'please description must be more than 9 word and less than 1001 words',}
     )
 });
+
+export const validateWithZodSchema = <T> (schema: z.ZodType<T>, data: unknown):T  => {
+    const results = schema.safeParse(data);
+    if (!results.success) {
+        const errors = results.error.issues.map((issue) => issue.message);
+        throw new Error(errors.join(','));
+    }
+    return results.data;
+ };
