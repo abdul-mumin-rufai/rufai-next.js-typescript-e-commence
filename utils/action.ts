@@ -62,6 +62,7 @@ export const createProductAction = async (prev: any, formaData: FormData): Promi
         //getting the input data
         const rawData = Object.fromEntries(formaData.entries());
         const imageFile = formaData.get('image') as File;
+        // pass imageFile as object to look like the one in the imageSchema
         const validatedImage = validateWithZodSchema(imageSchema, { image: imageFile });
         const validatedData = validateWithZodSchema(productSchema, rawData);
         console.log(validatedImage);
