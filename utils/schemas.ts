@@ -20,6 +20,7 @@ export const productSchema= z.object({
     )
 });
 
+// call this function in the imageSchema 
 const validateImageFile = () => { 
     const maxFileSize = 1024 * 1024;
     const acceptedFileTypes = ['image/'];
@@ -36,6 +37,7 @@ export const imageSchema = z.object({
     image: validateImageFile(),
 });
 
+// call this function and pass in the needed schema snd the data need as argument
 export const validateWithZodSchema = <T> (schema: z.ZodType<T>, data: unknown):T  => {
     const results = schema.safeParse(data);
     if (!results.success) {
