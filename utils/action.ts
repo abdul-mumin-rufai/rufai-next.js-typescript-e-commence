@@ -4,6 +4,7 @@ import db from '@/utils/db';
 import { currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { imageSchema, productSchema, validateWithZodSchema } from './schemas';
+import { uploadImage } from './supabase';
 
 // helper function to get userId
 const getAdminUser = async () => { 
@@ -65,19 +66,19 @@ export const createProductAction = async (prev: any, formaData: FormData): Promi
         // pass imageFile as object to look like the one in the imageSchema
         const validatedImage = validateWithZodSchema(imageSchema, { image: imageFile });
         const validatedData = validateWithZodSchema(productSchema, rawData);
-        console.log(validatedImage);
+        const filePath = await uploadImage(validatedImage.image);
         
 
 
         await db.prisma.product.create({
             data: {
                 ...validatedData,
-                image: '/images/product_1.jpg',
+                image:filePath,
                 clerkId:user.id,
             }
         })
-        return { message: 'Product created successfully' };
     } catch (error) {
         return renderError(error)
     }
+    redirect('/admin/products')
 };
