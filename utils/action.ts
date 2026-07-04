@@ -56,6 +56,7 @@ export const fetchSingleProduct = async (productId :string) => {
     return singleProduct;
 };
 
+// this is the createProductAction it take the input data and create a new product
 export const createProductAction = async (prev: any, formaData: FormData): Promise<{ message: string }> => { 
     const user = await getAdminUser();
 
