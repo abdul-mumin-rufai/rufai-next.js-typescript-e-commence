@@ -7,13 +7,23 @@ import { imageSchema, productSchema, validateWithZodSchema } from './schemas';
 import { uploadImage } from './supabase';
 
 // helper function to get userId
-const getAdminUser = async () => { 
+const getCurrentUser = async () => { 
     const user = await currentUser();
     if (!user) {
+        redirect('/')
         throw new Error('Please Rufai is the admin')
     }
     return user;
 };
+
+const getAdminUser = async () => { 
+    const user = await getCurrentUser();
+    if (user.id !== process.env.ADMIN_USER_ID) {
+        redirect('/')
+    }
+    return user
+};
+
 // error helper function
 const renderError = (error: unknown): { message: string } => {
     console.log(error);
@@ -58,7 +68,7 @@ export const fetchSingleProduct = async (productId :string) => {
 
 // this is the createProductAction it take the input data and create a new product
 export const createProductAction = async (prev: any, formaData: FormData): Promise<{ message: string }> => { 
-    const user = await getAdminUser();
+    const user = await getCurrentUser();
 
     try {
         //getting the input data
@@ -74,7 +84,8 @@ export const createProductAction = async (prev: any, formaData: FormData): Promi
         await db.prisma.product.create({
             data: {
                 ...validatedData,
-                image:filePath,
+                image: filePath,
+                //the clerkId is not only the admin user but any user who login
                 clerkId:user.id,
             }
         })
@@ -82,4 +93,14 @@ export const createProductAction = async (prev: any, formaData: FormData): Promi
         return renderError(error)
     }
     redirect('/admin/products')
+};
+
+export const fetchAdminProductAction = async () => { 
+    await getAdminUser();
+    const products = await db.prisma.product.findMany({
+        orderBy: {
+            createdAt:'desc'
+        }
+    })
+    return products
 };
