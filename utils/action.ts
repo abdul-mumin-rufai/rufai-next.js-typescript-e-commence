@@ -5,13 +5,13 @@ import { currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { imageSchema, productSchema, validateWithZodSchema } from './schemas';
 import { uploadImage } from './supabase';
+import { revalidatePath } from 'next/cache';
 
 // helper function to get userId
 const getCurrentUser = async () => { 
     const user = await currentUser();
     if (!user) {
         redirect('/')
-        throw new Error('Please Rufai is the admin')
     }
     return user;
 };
@@ -103,4 +103,23 @@ export const fetchAdminProductAction = async () => {
         }
     })
     return products
+};
+
+export const deleteProductAction = async (prevState: { productId: string }) => {
+    const { productId } = prevState;
+    await getAdminUser(); // checking of user is the admin
+
+    try {
+        await db.prisma.product.delete({
+            where: {
+                id: productId,
+            },
+        });
+        
+        revalidatePath('/admin/products');
+        return { message: 'product removed'};
+        
+    } catch (error) {
+        return renderError(error)
+    };
 };

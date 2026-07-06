@@ -1,5 +1,5 @@
 import React from 'react'
-import { fetchAdminProductAction } from '@/utils/action';
+import { deleteProductAction, fetchAdminProductAction } from '@/utils/action';
 import EmptyList from '@/components/globals/EmptyList';
 import Link from 'next/link';
 import { currencyOfGhana } from '@/utils/formats';
@@ -12,10 +12,21 @@ import {
     TableHeader,
     TableRow
 } from '@/components/ui/table';
+import { IconButton } from '@/components/form/Buttons';
+import FormContainer from '@/components/form/FormContainer';
 
 const AdminProductsPage = async () => {
     const items = await fetchAdminProductAction();
     if (items.length === 0) return <EmptyList />
+
+    const DeleteProduct = ({ productId }: { productId: string }) => { 
+        const deleteProduct = deleteProductAction.bind(null, { productId });
+        return (
+            <FormContainer action={deleteProduct}>
+                <IconButton actionType='delete'/>
+            </FormContainer>
+        )
+    };
     
     return (
         <section>
@@ -43,7 +54,12 @@ const AdminProductsPage = async () => {
                                     </TableCell>
                                     <TableCell>{ company}</TableCell>
                                     <TableCell>{currencyOfGhana(price) }</TableCell>
-                                    <TableCell></TableCell>
+                                    <TableCell>
+                                        <Link href={`/admin/products/${productId}/edit`}>
+                                            <IconButton actionType='edit'></IconButton>
+                                        </Link>
+                                        <DeleteProduct productId={productId}/>
+                                    </TableCell>
                                 </TableRow>
                             )
                         })}
@@ -52,5 +68,6 @@ const AdminProductsPage = async () => {
         </section>
     )
 };
+
 
 export default AdminProductsPage
