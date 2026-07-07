@@ -22,3 +22,8 @@ export const uploadImage = async (image: File) => {
     return supabaseBucket.storage.from(bucket).getPublicUrl(newName).data.publicUrl;
 };
 
+export const removeImageFromSupabase = async (url: string) => { 
+    const imageName = url.split('/').pop();
+    if (!imageName) throw new Error('Invaild image');
+    return supabaseBucket.storage.from(bucket).remove([imageName]);
+};

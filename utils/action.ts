@@ -4,7 +4,7 @@ import db from '@/utils/db';
 import { currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { imageSchema, productSchema, validateWithZodSchema } from './schemas';
-import { uploadImage } from './supabase';
+import { removeImageFromSupabase, uploadImage } from './supabase';
 import { revalidatePath } from 'next/cache';
 
 // helper function to get userId
@@ -110,12 +110,12 @@ export const deleteProductAction = async (prevState: { productId: string }) => {
     await getAdminUser(); // checking of user is the admin
 
     try {
-        await db.prisma.product.delete({
+        const product = await db.prisma.product.delete({
             where: {
                 id: productId,
             },
         });
-        
+        await removeImageFromSupabase(product.image)
         revalidatePath('/admin/products');
         return { message: 'product removed'};
         
@@ -123,3 +123,4 @@ export const deleteProductAction = async (prevState: { productId: string }) => {
         return renderError(error)
     };
 };
+
