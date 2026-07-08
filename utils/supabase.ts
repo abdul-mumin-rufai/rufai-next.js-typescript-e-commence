@@ -15,6 +15,7 @@ export const uploadImage = async (image: File) => {
     // name of image
     const newName = `${timestamp}-${image.name}`;
 
+    //data is what we get when we pass the newName and image parameter
     const { data } = await supabaseBucket.storage.from(bucket).upload(newName, image, { cacheControl: '2600' })
     if (!data) {
         throw new Error('Image upload failed')
@@ -23,7 +24,7 @@ export const uploadImage = async (image: File) => {
 };
 
 export const removeImageFromSupabase = async (url: string) => { 
-    const imageName = url.split('/').pop();
+    const imageName = url.split('/').pop(); // splitting the url to get the last / ie the actual name
     if (!imageName) throw new Error('Invaild image');
     return supabaseBucket.storage.from(bucket).remove([imageName]);
 };

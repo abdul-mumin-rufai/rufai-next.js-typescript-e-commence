@@ -124,3 +124,21 @@ export const deleteProductAction = async (prevState: { productId: string }) => {
     };
 };
 
+export const fetchAdminProductDetails = async (productId: string) => { 
+    await getAdminUser();
+    const product = await db.prisma.product.findUnique({
+        where: {
+            id:productId
+        }
+    });
+    if (!product) redirect('/admin/products');
+    return product;
+};
+
+export const updateProductAction = async (prevState: any, formData: FormData) => { 
+    return {message:'Product updated succesfully'}
+};
+
+export const updateProductImageAction = async (prevState: any, formData: FormData) => { 
+    return {message:'Image updated succesfully'}
+};
