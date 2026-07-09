@@ -135,10 +135,12 @@ export const fetchAdminProductDetails = async (productId: string) => {
     return product;
 };
 
+// this is the action for the formContainer in order to use useActionState
 export const updateProductAction = async (prevState: any, formData: FormData) => { 
     return {message:'Product updated succesfully'}
 };
 
+// this is the action for the formContainer in order to use useActionState form the image
 export const updateProductImageAction = async (prevState: any, formData: FormData) => { 
     return {message:'Image updated succesfully'}
 };
