@@ -137,7 +137,25 @@ export const fetchAdminProductDetails = async (productId: string) => {
 
 // this is the action for the formContainer in order to use useActionState
 export const updateProductAction = async (prevState: any, formData: FormData) => { 
-    return {message:'Product updated succesfully'}
+    try {
+        const productId = formData.get('id') as string;
+        const rawData = Object.fromEntries(formData.entries());
+        const validatedData = validateWithZodSchema(productSchema, rawData);
+
+        await db.prisma.product.update({
+            where: {
+                id:productId,
+            },
+            data: {
+                ...validatedData
+            }
+        })
+        revalidatePath(`/admin/products/${productId}/edit`)
+        return {message:'Product updated succesfully'}        
+    } catch (error) {
+        return renderError(error);
+    }
+
 };
 
 // this is the action for the formContainer in order to use useActionState form the image
