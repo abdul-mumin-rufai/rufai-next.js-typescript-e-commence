@@ -6,6 +6,7 @@ import SubmitButton from '@/components/form/Buttons';
 import FormInput from '@/components/form/FormInput';
 import PriceInput from '@/components/form/PriceInput';
 import TextAreaInput from '@/components/form/TextAreaInput';
+import ImageInputContainer from '@/components/form/ImageInputContainer';
 
 
 interface IdProps {
@@ -19,7 +20,7 @@ const EditProduct = async ({params}:IdProps)  => {
     const idParams = await params;
     //fetching the specific product
     const product = await fetchAdminProductDetails(idParams.id);
-    const { name, price, description, company, featured } = product;
+    const { name, price, description, company, featured, image } = product;
     return (
         <section>
             <h1 className='text-2xl font-semibold mb-8 capitalize'>
@@ -27,6 +28,17 @@ const EditProduct = async ({params}:IdProps)  => {
             </h1>
             <div className='border p-8 rounded-md'>
                 {/* IMAGE INPUT CONTAINER */}
+                <ImageInputContainer
+                    name={name}
+                    image={image}
+                    action={updateProductImageAction}
+                    text='Update Image'
+                >
+                    {/* we are hidding the id and imageName here because this is updating we already have the product and we need to hid the id from the front end */}
+                    <input type='hidden' name='id' value={idParams.id} />
+                    <input type='hidden' name='url' value={image}/>
+                </ImageInputContainer>
+                
                 <FormContainer action={updateProductAction}>
                     <div className='grid gap-4 md:grid-cols-2 my-4'>
                         <input type="hidden" name='id' defaultValue={idParams.id} />
