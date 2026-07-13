@@ -160,5 +160,29 @@ export const updateProductAction = async (prevState: any, formData: FormData) =>
 
 // this is the action for the formContainer in order to use useActionState form the image
 export const updateProductImageAction = async (prevState: any, formData: FormData) => { 
-    return {message:'Image updated succesfully'}
+    await getAdminUser();
+    try {
+        const productId = formData.get('id') as string;
+        const image = formData.get('image') as File;
+        const oldImageUrl = formData.get('url') as string;
+
+        // validate image file
+        const validateImageFile = validateWithZodSchema(imageSchema, { image });
+        const filePath = await uploadImage(validateImageFile.image);
+        await removeImageFromSupabase(oldImageUrl) // removed the old image url
+
+        // updating the image here
+        await db.prisma.product.update({
+            where: {
+                id:productId,
+            },
+            data: {
+                image: filePath,
+            }
+        })
+        revalidatePath(`/admin/products/${productId}/edit`)
+        return {message:'Image updated succesfully'}
+    } catch (error) {
+        return renderError(error)
+    };
 };
