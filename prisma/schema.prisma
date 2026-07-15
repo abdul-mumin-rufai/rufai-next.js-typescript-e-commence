@@ -33,4 +33,4 @@ model Favorite {
   productId String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-};
+}
