@@ -186,3 +186,17 @@ export const updateProductImageAction = async (prevState: any, formData: FormDat
         return renderError(error)
     };
 };
+
+export const fetchFavoriteId = async ({ productId }: { productId: string }) => {
+    const user = await getCurrentUser();
+    const favorite = await db.prisma.favorite.findFirst({
+        where: {
+            productId,
+            clerkId:user.id,
+        },
+        select: {
+            id:true,
+        }
+    })
+    return favorite?.id || null;
+};
