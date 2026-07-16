@@ -6,6 +6,9 @@ import { cn } from '@/lib/utils';
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { LiaEditSolid } from "react-icons/lia";
 import { AiFillDelete } from "react-icons/ai";
+import { Show, SignInButton } from '@clerk/nextjs';
+import { MdFavorite } from 'react-icons/md';
+import { MdFavoriteBorder } from "react-icons/md";
 
 
 
@@ -59,3 +62,34 @@ export const IconButton = ({ actionType }: { actionType: actionType }) => {
 };
 
 export default SubmitButton
+
+// favorite button that links to the signIn page when the user have not login yet
+export const linkFavoriteToSignUpBtn = () => { 
+    return (
+        <Show when='signed-out'>
+            <SignInButton mode='modal'>
+                <Button asChild
+                    type='button'
+                    size='icon'
+                    variant='destructive'
+                >
+                    <MdFavorite/>
+                </Button>
+            </SignInButton>
+        </Show>
+    )
+};
+
+export const favoriteSubmitBtn = ({ isFavorite }: { isFavorite: boolean }) => {
+    const { pending } = useFormStatus();
+    return (
+        <Button
+            type='submit'
+            size='icon'
+            variant='destructive'
+            className='p-2 cursor-pointer'
+        >
+            {pending?(<ReloadIcon className='animate-spin'/>):isFavorite?(<MdFavorite/>):(<MdFavoriteBorder/>)}
+        </Button>
+    )
+ };
