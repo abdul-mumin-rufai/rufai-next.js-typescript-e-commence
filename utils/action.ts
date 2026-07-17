@@ -200,3 +200,7 @@ export const fetchFavoriteId = async ({ productId }: { productId: string }) => {
     })
     return favorite?.id || null;
 };
+
+export const favoriteToggleAction = async () => { 
+    return { message:'favorite action is action'}
+};

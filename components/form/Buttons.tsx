@@ -64,23 +64,22 @@ export const IconButton = ({ actionType }: { actionType: actionType }) => {
 export default SubmitButton
 
 // favorite button that links to the signIn page when the user have not login yet
-export const linkFavoriteToSignUpBtn = () => { 
+export const LinkFavoriteToSignUpBtn = () => { 
     return (
-        <Show when='signed-out'>
-            <SignInButton mode='modal'>
-                <Button asChild
-                    type='button'
-                    size='icon'
-                    variant='destructive'
-                >
-                    <MdFavorite/>
-                </Button>
-            </SignInButton>
-        </Show>
+        <SignInButton mode='modal'>
+            <Button asChild
+                type='button'
+                size='icon'
+                variant='destructive'
+                className='p-2 cursor-pointer'
+            >
+                <MdFavoriteBorder/>
+            </Button>
+        </SignInButton>
     )
 };
 
-export const favoriteSubmitBtn = ({ isFavorite }: { isFavorite: boolean }) => {
+export const FavoriteSubmitBtn = ({ isFavorite }: { isFavorite: boolean }) => {
     const { pending } = useFormStatus();
     return (
         <Button

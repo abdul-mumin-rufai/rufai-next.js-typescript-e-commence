@@ -1,12 +1,14 @@
-import React from 'react'
-import { MdFavorite } from "react-icons/md";
-import { Button } from '../ui/button';
+import { auth, currentUser } from '@clerk/nextjs/server';
+import { LinkFavoriteToSignUpBtn } from '../form/Buttons';
+import { fetchFavoriteId } from '@/utils/action';
+import FavoriteToggleForm from './FavoriteToggleForm';
 
-const FavoriteToggleButton = ({productId}:{productId:string}) => {
+const FavoriteToggleButton = async ({ productId }: { productId: string }) => {
+    const userId = await currentUser() // get the current user id
+    if (!userId) return <LinkFavoriteToSignUpBtn />
+    const favoriteId = await fetchFavoriteId({ productId }); // fetched the favoriteId here
     return (
-        <Button size='icon' variant='destructive' className='p-2 cursor-pointer'>
-            <MdFavorite/>
-        </Button>
+        <FavoriteToggleForm favoriteId={favoriteId} productId={productId}/>
     )
 };
 
