@@ -189,6 +189,7 @@ export const updateProductImageAction = async (prevState: any, formData: FormDat
 
 export const fetchFavoriteId = async ({ productId }: { productId: string }) => {
     const user = await getCurrentUser();
+    // when there is productId and clerkId user.id then in the facvorite model the we set the id to true
     const favorite = await db.prisma.favorite.findFirst({
         where: {
             productId,
