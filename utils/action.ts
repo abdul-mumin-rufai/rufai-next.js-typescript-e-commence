@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation';
 import { imageSchema, productSchema, validateWithZodSchema } from './schemas';
 import { removeImageFromSupabase, uploadImage } from './supabase';
 import { revalidatePath } from 'next/cache';
+import { el } from '@faker-js/faker';
 
 // helper function to get userId
 const getCurrentUser = async () => { 
@@ -202,6 +203,27 @@ export const fetchFavoriteId = async ({ productId }: { productId: string }) => {
     return favorite?.id || null;
 };
 
-export const favoriteToggleAction = async () => { 
-    return { message:'favorite action is action'}
+export const favoriteToggleAction = async (prevState: { productId: string; favoriteId: string | null; pathName: string }) => {
+    const user = await getCurrentUser();
+    const {productId,favoriteId, pathName } = prevState;
+    try {
+        if (favoriteId) {
+            await db.prisma.favorite.delete({
+                where: {
+                    id:favoriteId,
+                },
+            })
+        } else {
+            await db.prisma.favorite.create({
+                data: {
+                    productId,
+                    clerkId:user.id,
+                },
+            })
+        }
+        revalidatePath(pathName)
+        return { message:favoriteId?'added to favorite': 'removed from favorite'}
+    } catch (error) {
+        return renderError(error);
+    }
 };

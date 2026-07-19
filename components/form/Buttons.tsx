@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { LiaEditSolid } from "react-icons/lia";
 import { AiFillDelete } from "react-icons/ai";
-import { Show, SignInButton } from '@clerk/nextjs';
+import { SignInButton } from '@clerk/nextjs';
 import { MdFavorite } from 'react-icons/md';
 import { MdFavoriteBorder } from "react-icons/md";
 
@@ -73,7 +73,7 @@ export const LinkFavoriteToSignUpBtn = () => {
                 variant='destructive'
                 className='p-2 cursor-pointer'
             >
-                <MdFavoriteBorder/>
+                <MdFavoriteBorder />
             </Button>
         </SignInButton>
     )
@@ -88,7 +88,7 @@ export const FavoriteSubmitBtn = ({ isFavorite }: { isFavorite: boolean }) => {
             variant='destructive'
             className='p-2 cursor-pointer'
         >
-            {pending?(<ReloadIcon className='animate-spin'/>):isFavorite?(<MdFavorite/>):(<MdFavoriteBorder/>)}
+            {pending ? (<ReloadIcon className='animate-spin' />) : isFavorite ? (<MdFavoriteBorder />) : (<MdFavorite />)}
         </Button>
     )
- };
+};
