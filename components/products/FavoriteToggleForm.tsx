@@ -16,7 +16,7 @@ const FavoriteToggleForm = ({ productId,favoriteId }: FavoriteToggleFormProps) =
     return (
         <FormContainer action={toggleAction}>
             {/* if the favoriteId exist then we set isFavorite to true else we set is to false */}
-            <FavoriteSubmitBtn isFavorite={favoriteId?true:false}/>
+            <FavoriteSubmitBtn isFavorite={favoriteId ? true : false} />
         </FormContainer>
     )
 };

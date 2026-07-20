@@ -222,8 +222,21 @@ export const favoriteToggleAction = async (prevState: { productId: string; favor
             })
         }
         revalidatePath(pathName)
-        return { message:favoriteId?'added to favorite': 'removed from favorite'}
+        return { message: favoriteId ? 'Removed from favorite' : 'Added to favorite' };
     } catch (error) {
         return renderError(error);
     }
+};
+
+export const fetchUserFavorite = async () => { 
+    const user = await getCurrentUser();
+    const favorite = await db.prisma.favorite.findMany({
+        where: {
+            clerkId:user.id,
+        },
+        include: {
+            product:true,
+        },
+    });
+    return favorite
 };

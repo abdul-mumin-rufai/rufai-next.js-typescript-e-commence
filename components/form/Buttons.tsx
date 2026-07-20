@@ -88,7 +88,7 @@ export const FavoriteSubmitBtn = ({ isFavorite }: { isFavorite: boolean }) => {
             variant='destructive'
             className='p-2 cursor-pointer'
         >
-            {pending ? (<ReloadIcon className='animate-spin' />) : isFavorite ? (<MdFavoriteBorder />) : (<MdFavorite />)}
+            {pending ? (<ReloadIcon className='animate-spin' />) : isFavorite ? (<MdFavorite />) : (<MdFavoriteBorder />)}
         </Button>
     )
 };
