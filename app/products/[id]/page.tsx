@@ -6,6 +6,7 @@ import { fetchSingleProduct } from '@/utils/action';
 import { currencyOfGhana } from '@/utils/formats';
 import Image from 'next/image';
 import FavoriteToggleButton from '@/components/products/FavoriteToggleButton';
+import ShareButton from '@/components/single-product/ShareButton';
 
 
 
@@ -41,7 +42,10 @@ const page = async ({ params }: IdProps) => {
                         <h1 className='capitalise font-bold text-3xl'>
                             {name}
                         </h1>
-                        <FavoriteToggleButton productId={idParams.id}/>
+                        <div className='flex items-center gap-x-2'>
+                            <FavoriteToggleButton productId={idParams.id} />
+                            <ShareButton productId={idParams.id} name={name}/>
+                        </div>
                     </div>
                     <Ratings productId={idParams.id} />
                     <h4 className='text-xl mt-2'>
