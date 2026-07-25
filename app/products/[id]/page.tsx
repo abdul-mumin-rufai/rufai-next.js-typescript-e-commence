@@ -7,6 +7,8 @@ import { currencyOfGhana } from '@/utils/formats';
 import Image from 'next/image';
 import FavoriteToggleButton from '@/components/products/FavoriteToggleButton';
 import ShareButton from '@/components/single-product/ShareButton';
+import SubmitReview from '@/components/reviews/SubmitReview';
+import ProductReviews from '@/components/reviews/ProductReviews';
 
 
 
@@ -60,6 +62,8 @@ const page = async ({ params }: IdProps) => {
                     <AddtoCart productId={idParams.id}/>
                 </div>
             </div>
+            <ProductReviews productId={idParams.id} />
+            <SubmitReview productId={idParams.id} />
         </section>
     )
 };

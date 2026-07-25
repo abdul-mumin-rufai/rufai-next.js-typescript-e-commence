@@ -10,7 +10,7 @@ const RatingInput = ({ name, textLabel }: { name: string, textLabel?: string }) 
   }).reverse();
   return (
     <div className='mb-2 max-w-xs'>
-      <Label htmlFor={name} className='capitalize'>
+      <Label htmlFor={name} className='capitalize mb-2'>
         {textLabel || name}
       </Label>
       <Select defaultValue={numbers[0]} required>
