@@ -32,7 +32,7 @@ const SubmitReview = ({ productId }: { productId: string }) => {
                         <input type='hidden' name='authorName' value={user?.firstName || 'user'} />
                         <input type='hidden' name='authorImageUrl' value={user?.imageUrl || ''} />
                         <RatingInput name='rating' textLabel='rating' />
-                        <TextAreaInput name='input comment' label='feedback' defaultValue='Rufai keep going and build a strong portfolio' />
+                        <TextAreaInput name='comment' label='feedback' defaultValue='Rufai keep going and build a strong portfolio' />
                         
                         <SubmitButton size='default'/>
                     </FormContainer>

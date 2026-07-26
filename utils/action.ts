@@ -3,10 +3,9 @@
 import db from '@/utils/db';
 import { currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
-import { imageSchema, productSchema, validateWithZodSchema } from './schemas';
+import { imageSchema, productSchema, reviewSchema, validateWithZodSchema } from './schemas';
 import { removeImageFromSupabase, uploadImage } from './supabase';
 import { revalidatePath } from 'next/cache';
-import { el } from '@faker-js/faker';
 
 // helper function to get userId
 const getCurrentUser = async () => { 
@@ -241,8 +240,22 @@ export const fetchUserFavorite = async () => {
     return favorite
 };
 
-export const createReviewAction = async (prevState:any, formData:FormData) => { 
-    return {message:'Review submitted'}
+export const createReviewAction = async (prevState: any, formData: FormData): Promise<{ message: string }> => {
+    const user = await getCurrentUser();
+    try {
+        const rawData = Object.fromEntries(formData.entries());
+        const validatedData = validateWithZodSchema(reviewSchema, rawData);
+        await db.prisma.review.create({
+            data: {
+                ...validatedData,
+                clerkId:user.id,
+            },
+        });
+        revalidatePath(`/products/${validatedData.productId}`);
+        return {message:'Review submitted...Thank you for your time'}
+    } catch (error) {
+        return renderError(error)
+    }
 };
 
 export const fetchProductReviews = async () => {};
