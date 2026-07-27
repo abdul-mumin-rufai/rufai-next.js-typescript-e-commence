@@ -13,7 +13,7 @@ const RatingInput = ({ name, textLabel }: { name: string, textLabel?: string }) 
       <Label htmlFor={name} className='capitalize mb-2'>
         {textLabel || name}
       </Label>
-      <Select defaultValue={numbers[0]} required>
+      <Select defaultValue={numbers[0]} name={name} required>
         <SelectTrigger>
           <SelectValue/>
         </SelectTrigger>
