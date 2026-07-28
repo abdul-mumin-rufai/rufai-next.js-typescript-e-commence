@@ -258,7 +258,17 @@ export const createReviewAction = async (prevState: any, formData: FormData): Pr
     }
 };
 
-export const fetchProductReviews = async () => {};
+export const fetchProductReviews = async (productId:string ) => {
+    const productsReviews = await db.prisma.review.findMany({
+        where: {
+            productId,
+        },
+        orderBy: {
+            createdAt: 'desc',
+        }
+    });
+    return productsReviews;
+};
 export const fetchProductReviewsByUser = async () => {};
 export const deleteReviewAction = async () => {};
 export const findExistingReview = async () => {};
