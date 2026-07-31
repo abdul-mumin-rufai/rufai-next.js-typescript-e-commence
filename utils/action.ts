@@ -288,6 +288,44 @@ export const fetchProductRating = async (productId: string) => {
         count: result[0]?._count?.rating ?? 0,
     };
 };
-export const fetchProductReviewsByUser = async () => {};
-export const deleteReviewAction = async () => {};
+
+// because we are creating a reviews page and it is unique to a user
+export const fetchProductReviewsByUser = async () => {
+    const user = await getCurrentUser();
+    const review = db.prisma.review.findMany({
+        where: {
+            clerkId:user.id,
+        },
+        select: {
+            id:true,
+            rating: true,
+            comment: true,
+            product: {
+                select: {
+                    image: true,
+                    name:true,
+                }
+            }
+        }
+    })
+    return review;
+};
+export const deleteReviewAction = async (prevState: { reviewId: string }) => {
+    const { reviewId } = prevState;
+    const user = getCurrentUser();
+
+    try {
+        await db.prisma.review.delete({
+            where: {
+                id: reviewId,
+                clerkId: (await user).id,
+            }
+        })
+        revalidatePath('/reviews');
+        return {message:'Review deleted successfully...'}
+    } catch (error) {
+        return renderError(error);
+    }
+
+};
 export const findExistingReview = async () => {};
