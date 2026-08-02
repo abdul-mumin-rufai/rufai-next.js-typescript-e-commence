@@ -2,13 +2,14 @@ import React from 'react'
 import AddtoCart from '@/components/single-product/AddtoCart';
 import Ratings from '@/components/single-product/Ratings';
 import BreadCrums from '@/components/single-product/BreadCrums';
-import { fetchSingleProduct } from '@/utils/action';
+import { fetchSingleProduct, findExistingReview } from '@/utils/action';
 import { currencyOfGhana } from '@/utils/formats';
 import Image from 'next/image';
 import FavoriteToggleButton from '@/components/products/FavoriteToggleButton';
 import ShareButton from '@/components/single-product/ShareButton';
 import SubmitReview from '@/components/reviews/SubmitReview';
 import ProductReviews from '@/components/reviews/ProductReviews';
+import { currentUser } from '@clerk/nextjs/server';
 
 
 
@@ -22,6 +23,8 @@ const page = async ({ params }: IdProps) => {
     const singleProduct = await fetchSingleProduct(idParams.id);
     const { image, price, name, description, company } = singleProduct;
     const cedisAmount = currencyOfGhana(price);
+    const user = await currentUser();
+    const reviewDoesNotExist = user && !(await findExistingReview(user.id, idParams.id));
 
     return (
         <section>
@@ -63,7 +66,7 @@ const page = async ({ params }: IdProps) => {
                 </div>
             </div>
             <ProductReviews productId={idParams.id} />
-            <SubmitReview productId={idParams.id} />
+            {reviewDoesNotExist && <SubmitReview productId={idParams.id} />}
         </section>
     )
 };
