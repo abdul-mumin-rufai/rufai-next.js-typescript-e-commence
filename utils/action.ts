@@ -336,3 +336,20 @@ export const findExistingReview = async (userId: string, productId: string) => {
         },
     });
 };
+
+
+export const fetchCartItems = async () => {};
+
+const fetchProduct = async () => {};
+
+export const fetchOrCreateCart = async () => {};
+
+const updateOrCreateCartItem = async () => {};
+
+export const updateCart = async () => {};
+
+export const addToCartAction = async () => {};
+
+export const removeCartItemAction = async () => {};
+
+export const updateCartItemAction = async () => {};
