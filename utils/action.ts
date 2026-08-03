@@ -1,7 +1,7 @@
 'use server'
 
 import db from '@/utils/db';
-import { currentUser } from '@clerk/nextjs/server';
+import { currentUser,auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { imageSchema, productSchema, reviewSchema, validateWithZodSchema } from './schemas';
 import { removeImageFromSupabase, uploadImage } from './supabase';
@@ -338,7 +338,20 @@ export const findExistingReview = async (userId: string, productId: string) => {
 };
 
 
-export const fetchCartItems = async () => {};
+export const fetchCartItems = async () => {
+    const user = await currentUser();
+    const userId = user?.id;
+
+    const cart = await db.prisma.cart.findFirst({
+        where: {
+            clerkId: userId ?? '',
+        },
+        select: {
+            numItemsInCart:true,
+        }
+    });
+    return cart?.numItemsInCart || 0;
+};
 
 const fetchProduct = async () => {};
 
