@@ -6,6 +6,8 @@ import { redirect } from 'next/navigation';
 import { imageSchema, productSchema, reviewSchema, validateWithZodSchema } from './schemas';
 import { removeImageFromSupabase, uploadImage } from './supabase';
 import { revalidatePath } from 'next/cache';
+import { error } from 'console';
+import { ne } from '@faker-js/faker';
 
 // helper function to get userId
 const getCurrentUser = async () => { 
@@ -352,17 +354,62 @@ export const fetchCartItems = async () => {
     });
     return cart?.numItemsInCart || 0;
 };
+const includeProductCluase = {
+        cartItems: {
+            include: {
+                product:true,
+            }
+        }
+}
+const fetchProduct = async (productId: string ) => {
+    const product = await db.prisma.product.findUnique({
+        where: {
+            id:productId,
+        },
+    })
+    if (!product) {
+        throw new Error('please product not found')
+    }
+    return product;
+};
 
-const fetchProduct = async () => {};
+export const fetchOrCreateCart = async ({ userId, errorOnFailure = false }: { userId: string, errorOnFailure?: boolean }) => {
+    let cart = await db.prisma.cart.findFirst({
+        where: {
+            clerkId: userId,
+        },//we fetch the cart if the cart instance exist
+        include: includeProductCluase,
+    });
 
-export const fetchOrCreateCart = async () => {};
+    if (!cart && errorOnFailure) { 
+        throw new Error('cart not found')
+    };
+    if (!cart) {
+        cart = await db.prisma.cart.create({
+            data: {
+                clerkId:userId
+            },
+            include:includeProductCluase,
+        })
+    }
+    return cart
+};
 
 const updateOrCreateCartItem = async () => {};
 
 export const updateCart = async () => {};
 
-export const addToCartAction = async (prevState: any, formData:FormData) => {
-    return {message:'product added to cart'}
+export const addToCartAction = async (prevState: any, formData: FormData) => {
+    const user = await getCurrentUser()
+    try {
+        const productId = formData.get('productId') as string;
+        const amount = Number(formData.get('amount'))
+        return { message: 'product added to cart' }
+        await fetchProduct(productId) // we are fetching the product from the database because i have to be sure the product exist
+        const cart = await fetchOrCreateCart({userId: user.id})
+    } catch (error) {
+        renderError(error)
+    }
 };
 
 export const removeCartItemAction = async () => {};
