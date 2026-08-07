@@ -8,6 +8,7 @@ import { removeImageFromSupabase, uploadImage } from './supabase';
 import { revalidatePath } from 'next/cache';
 import { error } from 'console';
 import { ne } from '@faker-js/faker';
+import { use } from 'react';
 
 // helper function to get userId
 const getCurrentUser = async () => { 
@@ -340,6 +341,7 @@ export const findExistingReview = async (userId: string, productId: string) => {
 };
 
 
+// we fetch it because to displays the numItemsInCart on the front page
 export const fetchCartItems = async () => {
     const user = await currentUser();
     const userId = user?.id;
@@ -395,7 +397,30 @@ export const fetchOrCreateCart = async ({ userId, errorOnFailure = false }: { us
     return cart
 };
 
-const updateOrCreateCartItem = async () => {};
+const updateOrCreateCartItem = async ({ productId, cartId, amount }: { productId: string, cartId: string, amount: number }) => { 
+    let cartItem = await db.prisma.cartItem.findFirst({
+        where: {
+            productId,
+            cartId
+        },
+    });
+    //update cartItem if there is a cartItem
+    if (cartItem) {
+        await db.prisma.cartItem.update({
+            where: {
+                id: cartItem.id
+            },
+            data: {
+                amount: cartItem.amount + amount
+            }
+        });
+        //if no cartItem we create new cartItem
+    } else {
+        cartItem = await db.prisma.cartItem.create({
+            data: { amount, productId, cartId }
+        });
+    }
+};
 
 export const updateCart = async () => {};
 
@@ -406,10 +431,13 @@ export const addToCartAction = async (prevState: any, formData: FormData) => {
         const amount = Number(formData.get('amount'))
         return { message: 'product added to cart' }
         await fetchProduct(productId) // we are fetching the product from the database because i have to be sure the product exist
-        const cart = await fetchOrCreateCart({userId: user.id})
+        const cart = await fetchOrCreateCart({ userId: user.id })
+        //updating or creating cartItem
+        await updateOrCreateCartItem({productId, cartId: user.id, amount})
     } catch (error) {
         renderError(error)
     }
+    redirect('/cart')
 };
 
 export const removeCartItemAction = async () => {};
