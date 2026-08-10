@@ -6,9 +6,8 @@ import { redirect } from 'next/navigation';
 import { imageSchema, productSchema, reviewSchema, validateWithZodSchema } from './schemas';
 import { removeImageFromSupabase, uploadImage } from './supabase';
 import { revalidatePath } from 'next/cache';
-import { error } from 'console';
-import { ne } from '@faker-js/faker';
-import { use } from 'react';
+import { Cart } from '@/myPrisma/generated/prisma/client';
+
 
 // helper function to get userId
 const getCurrentUser = async () => { 
@@ -363,6 +362,7 @@ const includeProductCluase = {
             }
         }
 }
+// helper function for addToCartAction
 const fetchProduct = async (productId: string ) => {
     const product = await db.prisma.product.findUnique({
         where: {
@@ -375,6 +375,7 @@ const fetchProduct = async (productId: string ) => {
     return product;
 };
 
+// helper function for addToCartAction
 export const fetchOrCreateCart = async ({ userId, errorOnFailure = false }: { userId: string, errorOnFailure?: boolean }) => {
     let cart = await db.prisma.cart.findFirst({
         where: {
@@ -397,6 +398,7 @@ export const fetchOrCreateCart = async ({ userId, errorOnFailure = false }: { us
     return cart
 };
 
+// helper function for addToCartAction
 const updateOrCreateCartItem = async ({ productId, cartId, amount }: { productId: string, cartId: string, amount: number }) => { 
     let cartItem = await db.prisma.cartItem.findFirst({
         where: {
@@ -422,21 +424,56 @@ const updateOrCreateCartItem = async ({ productId, cartId, amount }: { productId
     }
 };
 
-export const updateCart = async () => {};
+// helper function for addToCartAction
+export const updateCart = async (cart: Cart) => { 
+    const cartItems = await db.prisma.cartItem.findMany({
+        where: {
+            cartId: cart.id,
+        },
+        include: {
+            product: true
+        }
+    });
+    
+    let numItemsInCart = 0;
+    let cartTotal = 0;
+
+    for (const cartItem of cartItems) { 
+        numItemsInCart += cartItem.amount;
+        cartTotal += cartItem.amount * cartItem.product.price;
+    };
+
+    const tax = cart.taxRate * cartTotal;
+    const shipping = cartTotal ? + cart.shipping : 0;
+    const orderTotal = cartTotal + tax + shipping;
+
+    await db.prisma.cart.update({
+        where: {
+            id: cart.id,
+        },
+        data: {
+            numItemsInCart,
+            cartTotal,
+            tax,
+            orderTotal
+        }
+    });
+};
 
 export const addToCartAction = async (prevState: any, formData: FormData) => {
     const user = await getCurrentUser()
     try {
         const productId = formData.get('productId') as string;
         const amount = Number(formData.get('amount'))
-        return { message: 'product added to cart' }
         await fetchProduct(productId) // we are fetching the product from the database because i have to be sure the product exist
         const cart = await fetchOrCreateCart({ userId: user.id })
         //updating or creating cartItem
-        await updateOrCreateCartItem({productId, cartId: user.id, amount})
+        await updateOrCreateCartItem({ productId, cartId: cart.id, amount })
+        await updateCart(cart);
     } catch (error) {
-        renderError(error)
+        return renderError(error)
     }
+    revalidatePath('/cart')
     redirect('/cart')
 };
 
