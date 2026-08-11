@@ -355,13 +355,14 @@ export const fetchCartItems = async () => {
     });
     return cart?.numItemsInCart || 0;
 };
-const includeProductCluase = {
-        cartItems: {
-            include: {
-                product:true,
-            }
-        }
-}
+const includeProductClause = {
+    cartItems: {
+        include: {
+            product: true,
+        },
+    },
+};
+
 // helper function for addToCartAction
 const fetchProduct = async (productId: string ) => {
     const product = await db.prisma.product.findUnique({
@@ -381,7 +382,7 @@ export const fetchOrCreateCart = async ({ userId, errorOnFailure = false }: { us
         where: {
             clerkId: userId,
         },//we fetch the cart if the cart instance exist
-        include: includeProductCluase,
+        include: includeProductClause,
     });
 
     if (!cart && errorOnFailure) { 
@@ -392,7 +393,7 @@ export const fetchOrCreateCart = async ({ userId, errorOnFailure = false }: { us
             data: {
                 clerkId:userId
             },
-            include:includeProductCluase,
+            include:includeProductClause,
         })
     }
     return cart
@@ -479,4 +480,8 @@ export const addToCartAction = async (prevState: any, formData: FormData) => {
 
 export const removeCartItemAction = async () => {};
 
-export const updateCartItemAction = async () => {};
+export const updateCartItemAction = async () => { };
+
+export const orderTotal = async():Promise<{message:string}> => { 
+    return {message:'order submitted'}
+};
