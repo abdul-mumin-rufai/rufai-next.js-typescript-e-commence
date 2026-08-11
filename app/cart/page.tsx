@@ -1,5 +1,5 @@
 import React from 'react'
-import { fetchOrCreateCart, updateCart, orderTotal } from '@/utils/action';
+import { fetchOrCreateCart, updateCart} from '@/utils/action';
 import CartItemsList from '@/components/cart/CartItemsList';
 import CartTotals from '@/components/cart/CartTotals';
 import { auth} from '@clerk/nextjs/server';

@@ -482,6 +482,6 @@ export const removeCartItemAction = async () => {};
 
 export const updateCartItemAction = async () => { };
 
-export const orderTotal = async():Promise<{message:string}> => { 
+export const createOrderAction = async():Promise<{message:string}> => { 
     return {message:'order submitted'}
 };
