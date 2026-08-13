@@ -20,7 +20,7 @@ const CartTotals = ({ cart }: { cart: Cart }) => {
                 </CardTitle>
             </Card>
             <FormContainer action={createOrderAction}>
-                <SubmitButton text='place order'  />
+                <SubmitButton text='place order' className='w-full' />
             </FormContainer>
         </div>
     )
@@ -35,7 +35,7 @@ const CartTotalRows = ({ label, amount, lastRow=false}: { label: string; amount:
                 <span>{label}</span>
                 <span>{currencyOfGhana(amount) }</span>
             </p>
-            {lastRow?<Separator className='my-2'/>:null}
+            {lastRow ? null : <Separator className='my-1' />}
         </>
     )
 };

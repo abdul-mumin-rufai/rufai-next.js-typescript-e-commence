@@ -17,7 +17,7 @@ type BtnSize = 'sm' | 'lg' | 'default';
 interface SubmitButtonComponentProps { 
     text?: string;
     size?: BtnSize;
-    className?:''
+    className?:'' | string;
 };
 const SubmitButton = ({ text = 'submit', size = 'lg', className = '' }: SubmitButtonComponentProps) => {
     const result = useFormStatus();
