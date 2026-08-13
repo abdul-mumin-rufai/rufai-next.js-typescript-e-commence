@@ -478,7 +478,24 @@ export const addToCartAction = async (prevState: any, formData: FormData) => {
     redirect('/cart')
 };
 
-export const removeCartItemAction = async () => {};
+export const removeCartItemAction = async (prevState: any, formData: FormData) => {
+    const user = await getCurrentUser()
+    try {
+        const cartItemId = formData.get('id') as string;
+        const cart = await fetchOrCreateCart({ userId: user.id, errorOnFailure: true });
+        await db.prisma.cartItem.delete({
+            where: {
+                cartId: cart.id,
+                id:cartItemId
+            }
+        })
+        await updateCart(cart);
+        revalidatePath('/cart')
+        return {message:'product removed'}
+    } catch (error) {
+        return renderError(error)
+    }
+};
 
 export const updateCartItemAction = async () => { };
 
