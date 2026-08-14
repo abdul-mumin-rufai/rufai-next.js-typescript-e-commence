@@ -497,7 +497,26 @@ export const removeCartItemAction = async (prevState: any, formData: FormData) =
     }
 };
 
-export const updateCartItemAction = async () => { };
+export const updateCartItemAction = async ({ cartItemId, amount }: { cartItemId: string; amount: number }) => { 
+    const user = await getCurrentUser();
+    try {
+        const cart = await fetchOrCreateCart({ userId: user.id, errorOnFailure: true });
+        await db.prisma.cartItem.update({
+            where: {
+                id: cartItemId,
+                cartId:cart.id,
+            },
+            data: {
+                amount,
+            }
+        })
+        await updateCart(cart);
+        revalidatePath('/cart')
+        return {message:'cart updated'}
+    } catch (error) {
+        renderError(error)
+    }
+};
 
 export const createOrderAction = async():Promise<{message:string}> => { 
     return {message:'order submitted'}
