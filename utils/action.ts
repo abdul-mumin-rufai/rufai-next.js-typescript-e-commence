@@ -433,7 +433,10 @@ export const updateCart = async (cart: Cart) => {
         },
         include: {
             product: true
-        }
+        },
+        orderBy: {
+            createdAt: 'asc'  // this fixed a bug when we update the cartItem amount
+        },
     });
     
     let numItemsInCart = 0;
@@ -448,7 +451,8 @@ export const updateCart = async (cart: Cart) => {
     const shipping = cartTotal ? + cart.shipping : 0;
     const orderTotal = cartTotal + tax + shipping;
 
-    await db.prisma.cart.update({
+
+    const currentCart = await db.prisma.cart.update({
         where: {
             id: cart.id,
         },
@@ -459,6 +463,7 @@ export const updateCart = async (cart: Cart) => {
             orderTotal
         }
     });
+    return {cartItems, currentCart}
 };
 
 export const addToCartAction = async (prevState: any, formData: FormData) => {

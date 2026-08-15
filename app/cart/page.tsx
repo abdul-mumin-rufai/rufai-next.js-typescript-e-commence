@@ -11,10 +11,10 @@ async function CartPage() {
   const { userId } = await auth();
   if (!userId) redirect('/'); // cart page is a protected route
 
-  const cart = await fetchOrCreateCart({ userId });
-  await updateCart(cart);
+  const previousCart = await fetchOrCreateCart({ userId });
+  const {currentCart, cartItems } = await updateCart(previousCart);
   
-  if (cart?.numItemsInCart === 0) {
+  if (cartItems.length === 0) {
     return <SectionTitle title='Please your cart is empty' />;
   }
 
@@ -23,10 +23,10 @@ async function CartPage() {
       <SectionTitle title='your cart item list' />
       <div className='mt-8 grid gap-4 lg:grid-cols-12'>
         <div className='lg:col-span-8'>
-          <CartItemsList cartItems={cart.cartItems}/>
+          <CartItemsList cartItems={cartItems}/>
         </div>
         <div className='lg:col-span-4 lg:pl-4'>
-          <CartTotals cart={cart}/>
+          <CartTotals cart={currentCart}/>
         </div>
       </div>
     </>
