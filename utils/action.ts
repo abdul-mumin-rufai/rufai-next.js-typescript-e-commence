@@ -522,3 +522,66 @@ export const updateCartItemAction = async ({ cartItemId, amount }: { cartItemId:
         renderError(error)
     }
 };
+
+export const createOrderAction = async (): Promise<{ message: string }> => {
+    const user = await getCurrentUser();
+    try {
+        const cart = await fetchOrCreateCart({
+            userId: user.id, errorOnFailure: true
+        });
+        const order = await db.prisma.order.create({
+            data: {
+                clerkId: user.id,
+                products: cart.numItemsInCart,
+                tax: cart.tax,
+                shipping: cart.shipping,
+                orderTotal: cart.orderTotal,
+                email:user.emailAddresses[0].emailAddress
+            }
+        })
+        await db.prisma.cart.delete({
+            where: {
+                id:cart.id,
+            }
+        })
+        return { message: 'order submitted' }
+    } catch (error) {
+        return renderError(error);
+    }
+    redirect('/orders')
+};
+
+export const fetchUsersOrders = async () => {
+    const user = await getCurrentUser();
+    try {
+        const userOrders = await db.prisma.order.findMany({
+            where: {
+                clerkId: user.id,
+                isPaid: true,
+            },
+            orderBy: {
+                createdAt: 'desc'
+            },
+        });
+        return userOrders;
+    } catch (error) {
+        return renderError(error);
+    };
+};
+
+export const fetchAdminOrders = async () => { 
+    const adminUser = await getAdminUser();
+    try {
+        const adminOrders = await db.prisma.order.findMany({
+            where: {
+                isPaid: true,
+            },
+            orderBy: {
+                createdAt: 'desc'
+            }
+        });
+        return adminOrders;
+    } catch (error) {
+        return renderError(error);
+    }
+};
