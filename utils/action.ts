@@ -522,7 +522,3 @@ export const updateCartItemAction = async ({ cartItemId, amount }: { cartItemId:
         renderError(error)
     }
 };
-
-export const createOrderAction = async():Promise<{message:string}> => { 
-    return {message:'order submitted'}
-};
