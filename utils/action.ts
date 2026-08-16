@@ -519,7 +519,7 @@ export const updateCartItemAction = async ({ cartItemId, amount }: { cartItemId:
         revalidatePath('/cart')
         return {message:'cart updated'}
     } catch (error) {
-        renderError(error)
+        return renderError(error)
     }
 };
 
@@ -536,15 +536,14 @@ export const createOrderAction = async (): Promise<{ message: string }> => {
                 tax: cart.tax,
                 shipping: cart.shipping,
                 orderTotal: cart.orderTotal,
-                email:user.emailAddresses[0].emailAddress
+                email: user.emailAddresses[0].emailAddress
             }
         })
         await db.prisma.cart.delete({
             where: {
-                id:cart.id,
+                id: cart.id,
             }
         })
-        return { message: 'order submitted' }
     } catch (error) {
         return renderError(error);
     }
@@ -553,35 +552,27 @@ export const createOrderAction = async (): Promise<{ message: string }> => {
 
 export const fetchUsersOrders = async () => {
     const user = await getCurrentUser();
-    try {
-        const userOrders = await db.prisma.order.findMany({
-            where: {
-                clerkId: user.id,
-                isPaid: true,
-            },
-            orderBy: {
-                createdAt: 'desc'
-            },
-        });
-        return userOrders;
-    } catch (error) {
-        return renderError(error);
-    };
+    const userOrders = await db.prisma.order.findMany({
+        where: {
+            clerkId: user.id,
+            isPaid: true,
+        },
+        orderBy: {
+            createdAt: 'desc'
+        },
+    });
+    return userOrders;
 };
 
-export const fetchAdminOrders = async () => { 
+export const fetchAdminOrders = async () => {
     const adminUser = await getAdminUser();
-    try {
-        const adminOrders = await db.prisma.order.findMany({
-            where: {
-                isPaid: true,
-            },
-            orderBy: {
-                createdAt: 'desc'
-            }
-        });
-        return adminOrders;
-    } catch (error) {
-        return renderError(error);
-    }
+    const adminOrders = await db.prisma.order.findMany({
+        where: {
+            isPaid: true,
+        },
+        orderBy: {
+            createdAt: 'desc'
+        }
+    });
+    return adminOrders;
 };

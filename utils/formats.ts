@@ -5,3 +5,11 @@ export const currencyOfGhana = async (amount: number | null) => {
         currency: 'GHS'
     }).format(value);
 };
+
+export const formatDate = (date: Date) => { 
+    return new Intl.DateTimeFormat('en-GH', {
+        year: 'numeric',
+        month: 'long',
+        day:'numeric'
+    }).format(date);
+};
