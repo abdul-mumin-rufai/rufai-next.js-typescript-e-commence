@@ -13,9 +13,9 @@ interface IdProps {
     params: Promise<{
         id: string;
     }>;
-  }
+};
 
-const EditProduct = async ({params}:IdProps)  => {
+const EditProduct = async ({ params }: IdProps) => {
     // getting the id from the params
     const idParams = await params;
     //fetching the specific product
@@ -36,9 +36,9 @@ const EditProduct = async ({params}:IdProps)  => {
                 >
                     {/* we are hidding the id and imageName here because this is updating we already have the product and we need to hid the id from the front end */}
                     <input type='hidden' name='id' value={idParams.id} />
-                    <input type='hidden' name='url' value={image}/>
+                    <input type='hidden' name='url' value={image} />
                 </ImageInputContainer>
-                
+
                 <FormContainer action={updateProductAction}>
                     <div className='grid gap-4 md:grid-cols-2 my-4'>
                         <input type="hidden" name='id' defaultValue={idParams.id} />
@@ -68,7 +68,7 @@ const EditProduct = async ({params}:IdProps)  => {
                             defaultCheck={featured}
                         />
                     </div>
-                    <SubmitButton text='update product'/>
+                    <SubmitButton text='update product' />
                 </FormContainer>
             </div>
         </section>

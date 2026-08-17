@@ -17,7 +17,7 @@ interface IdProps {
     params: Promise<{
         id: string;
     }>;
-  }
+}
 const page = async ({ params }: IdProps) => {
     const idParams = await params;
     const singleProduct = await fetchSingleProduct(idParams.id);
@@ -49,7 +49,7 @@ const page = async ({ params }: IdProps) => {
                         </h1>
                         <div className='flex items-center gap-x-2'>
                             <FavoriteToggleButton productId={idParams.id} />
-                            <ShareButton productId={idParams.id} name={name}/>
+                            <ShareButton productId={idParams.id} name={name} />
                         </div>
                     </div>
                     <Ratings productId={idParams.id} />
@@ -62,7 +62,7 @@ const page = async ({ params }: IdProps) => {
                     <p className='mt-6 leading-8 text-muted-foreground'>
                         {description}
                     </p>
-                    <AddtoCart productId={idParams.id}/>
+                    <AddtoCart productId={idParams.id} />
                 </div>
             </div>
             <ProductReviews productId={idParams.id} />
