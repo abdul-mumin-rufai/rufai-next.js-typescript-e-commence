@@ -525,10 +525,24 @@ export const updateCartItemAction = async ({ cartItemId, amount }: { cartItemId:
 
 export const createOrderAction = async (): Promise<{ message: string }> => {
     const user = await getCurrentUser();
+
+    let orderId: null | string = null;
+    let cartId: null | string = null;
+
     try {
         const cart = await fetchOrCreateCart({
             userId: user.id, errorOnFailure: true
         });
+        cartId = cart.id;
+
+        // delete all orders which the isPaid is false since users can decide not to continue twith the orders
+        await db.prisma.order.deleteMany({
+            where: {
+                clerkId: user.id,
+                isPaid: false,
+            }
+        });
+
         const order = await db.prisma.order.create({
             data: {
                 clerkId: user.id,
@@ -539,15 +553,12 @@ export const createOrderAction = async (): Promise<{ message: string }> => {
                 email: user.emailAddresses[0].emailAddress
             }
         })
-        await db.prisma.cart.delete({
-            where: {
-                id: cart.id,
-            }
-        })
+        orderId = order.id;
+        
     } catch (error) {
         return renderError(error);
     }
-    redirect('/orders')
+    redirect(`/checkout?orderId=${orderId}&cartId=${cartId}`)
 };
 
 export const fetchUsersOrders = async () => {
