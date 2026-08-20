@@ -1,4 +1,6 @@
 'use client'
+export const dynamic = 'force-dynamic';
+
 import axios from 'axios';
 import { useSearchParams } from 'next/navigation';
 import React, { useCallback } from 'react';
