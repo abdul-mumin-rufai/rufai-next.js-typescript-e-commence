@@ -42,10 +42,10 @@ export const POST = async (req:NextRequest) => {
         return {
             quantity: cartItem.amount,
             price_data: {
-                currency: 'ghs',
+                currency: 'usd',
                 product_data: {
                     name: cartItem.product.name,
-                    image: [cartItem.product.image],
+                    images: [cartItem.product.image],
                 },
                 unit_amount: cartItem.product.price * 100 // the smallest cedi value ie pesewas
             },
@@ -55,11 +55,11 @@ export const POST = async (req:NextRequest) => {
     // creating a stripe session
     try {
         const session = await stripe.checkout.sessions.create({
-            ui_mode: 'embedded',
+            ui_mode: 'embedded_page',
             metadata: { orderId, cartId },
             line_items: line_items,
             mode: 'payment',
-            return_url: `${origin}/api/confirm?session_id={CHECKOUT_SESSION_ID}`
+            return_url: `${origin}/api/payment/confirm?session_id={CHECKOUT_SESSION_ID}`
         });
         return Response.json({ clientSecret: session.client_secret });
     } catch (error) {
