@@ -1,50 +1,16 @@
 'use client'
-export const dynamic = 'force-dynamic';
+import StripePayment from "@/components/stripePayment/StripePayment";
+import { Suspense } from "react";
+import LoadingContainer from "@/components/globals/LoadingContainer";
 
-import axios from 'axios';
-import { useSearchParams } from 'next/navigation';
-import React, { useCallback } from 'react';
-import { loadStripe } from '@stripe/stripe-js'
-import {
-    EmbeddedCheckout,
-    EmbeddedCheckoutProvider
-} from '@stripe/react-stripe-js'
-
-
-
-//import { fetchClientSecret } from '../actions/stripe'
-
-/* interface CheckOutProps { 
-    useParams: Promise<{
-        cartId: string;
-        orderId: string;
-    }>
-}; */
-export default function Checkout() {
-    const searchParams = useSearchParams();
-    const cartId = searchParams.get('cartId');
-    const orderId = searchParams.get('orderId');
-
-
-    const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string)
-
-    const fetchClientSecret = useCallback(async () => {
-        // creating a checkout session
-        const response = await axios.post('/api/payment', {
-            orderId: orderId,
-            cartId: cartId
-        })
-        return response.data.clientSecret;
-    }, []);
-
+const page = () => {
     return (
-        <div id="checkout">
-            <EmbeddedCheckoutProvider
-                stripe={stripePromise}
-                options={{ fetchClientSecret }}
-            >
-                <EmbeddedCheckout />
-            </EmbeddedCheckoutProvider>
+        <div>
+            <Suspense fallback={<LoadingContainer />}>
+                <StripePayment />
+            </Suspense>
         </div>
     )
-}
+};
+
+export default page;
