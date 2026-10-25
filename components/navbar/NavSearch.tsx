@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 
 const NavSearch = () => {
     const searchParams = useSearchParams();
-    const {replace} = useRouter();
+    const { replace } = useRouter();
     // getting the search item from the query string
     const [search, setSearch] = useState(searchParams.get('search')?.toString() || '');
     // function to handleSearch values
@@ -28,7 +28,7 @@ const NavSearch = () => {
         if (!searchParams.get('search')) {
             setSearch('')
         }
-    },[searchParams.get('search')])
+    }, [searchParams.get('search')])
 
     return (
         <div>

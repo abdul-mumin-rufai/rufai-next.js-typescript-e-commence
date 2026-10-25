@@ -9,17 +9,17 @@ import { BsUiRadiosGrid } from "react-icons/bs";
 import { RiListRadio } from "react-icons/ri";
 
 // getting the query string
-interface SearchParams { 
+interface SearchParams {
     layout: string;
     search: string;
 };
 
 const ProductsContainer = async ({ layout, search }: SearchParams) => {
-    
-    const products = await fetchAllProducts({search});
+
+    const products = await fetchAllProducts({ search });
     const totalProducts = products.length;
     const searchItem = search ? `&search=${search}` : ''
-    
+
     return (
         <>
             {/* DISPLAY HEADER */}
@@ -30,31 +30,31 @@ const ProductsContainer = async ({ layout, search }: SearchParams) => {
                     </h4>
                     <div className='flex gap-x-4'>
                         <Button
-                        variant={layout === 'grid' ? 'destructive' : 'ghost'}
-                        size='icon'
-                        asChild
+                            variant={layout === 'grid' ? 'destructive' : 'ghost'}
+                            size='icon'
+                            asChild
                         >
-                        <Link href={`/products?layout=grid${searchItem}`}>
-                            <BsUiRadiosGrid/>
-                        </Link>
+                            <Link href={`/products?layout=grid${searchItem}`}>
+                                <BsUiRadiosGrid />
+                            </Link>
                         </Button>
                         <Button
-                        variant={layout === 'list' ? 'destructive' : 'ghost'}
-                        size='icon'
-                        asChild
+                            variant={layout === 'list' ? 'destructive' : 'ghost'}
+                            size='icon'
+                            asChild
                         >
-                        <Link href={`/products?layout=list${searchItem}`}>
-                            <RiListRadio/>
-                        </Link>
+                            <Link href={`/products?layout=list${searchItem}`}>
+                                <RiListRadio />
+                            </Link>
                         </Button>
                     </div>
                 </div>
-                <Separator className='mt-4'/>
+                <Separator className='mt-4' />
             </section>
-           {/*  DISPLAY PRODUCTS */}
+            {/*  DISPLAY PRODUCTS */}
             <div>
-               {/*  IF IT IS GRID OR LIST IT DISPLAYS NO PRODUCT */}
-                {totalProducts === 0 ? (<h5 className='text-2xl mt-16'>please your search doesn't match any product...</h5>):layout==='grid'?(<ProductsGrid products={products}/>):(<ProductsList products={products}/>)}
+                {/*  IF IT IS GRID OR LIST IT DISPLAYS NO PRODUCT */}
+                {totalProducts === 0 ? (<h5 className='text-2xl mt-16'>please your search doesn't match any product...</h5>) : layout === 'grid' ? (<ProductsGrid products={products} />) : (<ProductsList products={products} />)}
             </div>
         </>
     )
