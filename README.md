@@ -1,6 +1,6 @@
 admin logins
 
-username:rufaitesting@gmail.com
+username:rufai
 password:rufai@admin
 
 live url: https://rufai-next-js-typescript-e-commence-vfl3-gifty8u2r.vercel.app/
